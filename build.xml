@@ -1,0 +1,88 @@
+<project name="APOO" default="compile" basedir=".">
+		<description>
+				Projet APOO Groupe 1, Septembre-Octobre 2012
+		</description>
+
+		<property name="src" location="source"/>
+		<property name="map" location="map"/>
+		<property name="exc" location="exception"/>
+		<property name="IG" location="InterfaceGraphique"/>
+		<property name="rob" location="robot"/>
+		<property name="simu" location="simulator"/>
+		<property name="carte" location="carte"/>
+		<property name="build" location="objClass"/>
+		<property name="destdoc" location="documentation"/>
+		<property name="browser" location="/usr/bin/firefox"/>
+	
+	<path id ="apoo">
+		<pathelement location="source"/>
+		<pathelement location="map"/>
+		<pathelement location="exception"/>
+		<pathelement location="InterfaceGraphique"/>
+		<pathelement location="robot"/>
+		<pathelement location="simulator"/>
+		<pathelement location="carte"/>
+		<pathelement location="InterfaceGraphique/apoo_app.jar"/>
+	</path>
+
+
+	<path id ="apoo.comp">
+        <pathelement location="${build}/source"/>
+		<pathelement location="${build}/map"/>
+		<pathelement location="${build}/exception"/>
+		<pathelement location="${build}/InterfaceGraphique"/>
+		<pathelement location="${build}/robot"/>
+		<pathelement location="${build}/simulator"/>
+		<pathelement location="${build}/carte"/>
+		<pathelement location="${build}/InterfaceGraphique/apoo_app.jar"/>
+    </path>
+
+		<!-- Creation des dossiers nécessaires -->
+		<target name="initDir" description="Création des dossiers nécessaires pour la compilation des sources et la création de la doc">
+				<mkdir dir="${build}"/>
+				<mkdir dir="${destdoc}"/>
+		</target>
+
+		<!-- compiler les fichiers sources de "src" ds "build" -->
+		<target name="compile" depends="initDir" description="compilation des sources">
+          	
+			<javac srcdir="." destdir="${build}" >
+				<classpath refid ="apoo"/>
+			</javac>
+		</target>
+
+
+		<!--  Cible d'éxécution des PROGRAMMES -->
+
+		<target name="Main" depends="compile">
+            <java classpath="apoo.comp" classname="Main"/>  
+		</target>
+
+
+
+		<!-- Cible de compilation de la doc avec javadoc -->
+		<target name="genJavadoc" depends="initDir" description="Générationde la javadoc">
+            <javadoc destdir="${destdoc}" encoding="UTF-8" docencoding="UTF-8" charset="UTF-8">
+                 <classpath refid="apoo"/>
+						<fileset dir=".">
+						</fileset>
+				</javadoc>
+		</target>
+		<!-- ouverture avec firefox -->
+		<target name="firefoxJavadoc" depends="genJavadoc">
+				<exec command="${browser} ${destdoc}/index.html"/>
+		</target>
+
+
+		<!-- Nettoyage du dossier de compilation -->
+		<target name="cleanClass">
+				<delete dir="${build}"/>
+		</target>
+		<!-- Nettoyage de la documentation -->
+		<target name="cleanDoc">
+				<delete dir="${dirdoc}"/>
+		</target>
+		<!-- TOUT NETTOYER -->
+		<target name="cleanAll" depends="cleanDoc,cleanClass">
+		</target>
+</project>

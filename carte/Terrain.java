@@ -1,0 +1,5 @@
+package carte;
+
+public enum Terrain {
+	BLACK, ARABLE, CULTURE, PATURAGE, AGRICOLE, FORET, BROUSSAILLES, ROCHE, HUMIDE, LAC, RUISSEAU
+}
